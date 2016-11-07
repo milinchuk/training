@@ -5,7 +5,7 @@ import org.training.notebook.models.entities.Group;
 import org.training.notebook.models.NotebookModel;
 import org.training.notebook.models.entities.Record;
 import org.training.notebook.validators.Validator;
-import org.training.notebook.validators.ValidatorStore;
+import org.training.notebook.validators.pool.ValidatorsPool;
 import org.training.notebook.views.View;
 
 import java.util.Arrays;
@@ -35,10 +35,10 @@ public class Controller {
     /**
      *
      */
-    private ValidatorStore validators;
+    private ValidatorsPool validators;
 
     public Controller(NotebookModel notebook, View view, Scanner sc,
-                      Properties messageResouce, ValidatorStore validators) {
+                      Properties messageResouce, ValidatorsPool validators) {
         this.notebook = notebook;
         this.view = view;
         this.sc = sc;
@@ -132,8 +132,6 @@ public class Controller {
         view.printMessage(askDataMessage);
         while(true){
             data = askNextFromUser(sc);
-            System.out.println(data);
-            System.out.println(validator.isValid(data));
             if(!validator.isValid(data)){
                 view.printMessage(messageResouce.getProperty("error"));
             } else {

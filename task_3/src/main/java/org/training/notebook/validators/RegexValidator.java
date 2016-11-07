@@ -5,10 +5,10 @@ import java.util.regex.Pattern;
 /**
  * Created by click on 11/6/2016.
  */
-public class SimpleTextValidator implements Validator<String> {
+public class RegexValidator implements Validator<String> {
     private Pattern pattern;
 
-    public SimpleTextValidator(String regex) {
+    public RegexValidator(String regex) {
         pattern = Pattern.compile(regex);
     }
 

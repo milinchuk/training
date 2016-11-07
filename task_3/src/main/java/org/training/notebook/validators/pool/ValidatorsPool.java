@@ -1,11 +1,15 @@
-package org.training.notebook.validators;
+package org.training.notebook.validators.pool;
+
+import org.training.notebook.validators.GroupValidator;
+import org.training.notebook.validators.RegexValidator;
+import org.training.notebook.validators.Validator;
 
 import java.util.Properties;
 
 /**
  * Created by click on 11/7/2016.
  */
-public class ValidatorStore {
+public class ValidatorsPool {
     private Properties regexProperties;
 
     private Validator<String> nameValidator;
@@ -17,20 +21,20 @@ public class ValidatorStore {
     private Validator<String> aptValidator;
     private Validator<String> buildNumValidator;
 
-    public ValidatorStore(Properties regexResource) {
+    public ValidatorsPool(Properties regexResource) {
         this.regexProperties = regexResource;
         initValidators();
     }
 
     private void initValidators(){
-        nameValidator = new SimpleTextValidator(regexProperties.getProperty("name"));
-        nicknameValidator = new SimpleTextValidator(regexProperties.getProperty("nickname"));
-        commentValidator = new SimpleTextValidator(regexProperties.getProperty("comment"));
+        nameValidator = new RegexValidator(regexProperties.getProperty("name"));
+        nicknameValidator = new RegexValidator(regexProperties.getProperty("nickname"));
+        commentValidator = new RegexValidator(regexProperties.getProperty("comment"));
         groupValidator = new GroupValidator();
-        phoneValidator = new SimpleTextValidator(regexProperties.getProperty("phone"));
-        emailValidator = new SimpleTextValidator(regexProperties.getProperty("email"));
-        aptValidator = new SimpleTextValidator(regexProperties.getProperty("apartment"));
-        buildNumValidator = new SimpleTextValidator(regexProperties.getProperty("build"));
+        phoneValidator = new RegexValidator(regexProperties.getProperty("phone"));
+        emailValidator = new RegexValidator(regexProperties.getProperty("email"));
+        aptValidator = new RegexValidator(regexProperties.getProperty("apartment"));
+        buildNumValidator = new RegexValidator(regexProperties.getProperty("build"));
     }
 
     public Properties getRegexProperties() {

@@ -3,7 +3,7 @@ package org.training.notebook.config;
 import org.training.notebook.Main;
 import org.training.notebook.controllers.Controller;
 import org.training.notebook.models.NotebookModel;
-import org.training.notebook.validators.ValidatorStore;
+import org.training.notebook.validators.pool.ValidatorsPool;
 import org.training.notebook.views.View;
 
 import java.io.InputStream;
@@ -20,14 +20,14 @@ public class ApplicationConfig {
     private Scanner scanner;
     private Properties regexProperties;
     private Properties messageProperties;
-    private ValidatorStore validators;
+    private ValidatorsPool validators;
 
     /**
      *
      */
     public void configAndStart(){
         initRegex();
-        initValidatorFactory();
+        initValidatorsPool();
         initComponents();
 
         start();
@@ -52,8 +52,8 @@ public class ApplicationConfig {
     /**
      *
      */
-    private void initValidatorFactory(){
-        validators = new ValidatorStore(regexProperties);
+    private void initValidatorsPool(){
+        validators = new ValidatorsPool(regexProperties);
     }
 
     /**
