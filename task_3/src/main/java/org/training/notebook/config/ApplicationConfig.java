@@ -3,7 +3,6 @@ package org.training.notebook.config;
 import org.training.notebook.Main;
 import org.training.notebook.controllers.Controller;
 import org.training.notebook.models.NotebookModel;
-import org.training.notebook.validators.CommentValidator;
 import org.training.notebook.validators.GroupValidator;
 import org.training.notebook.validators.SimpleTextValidator;
 import org.training.notebook.validators.Validator;
@@ -21,7 +20,8 @@ public class ApplicationConfig {
     private NotebookModel notebookModel;
     private View view;
     private Scanner scanner;
-    private Properties properties;
+    private Properties regexProperties;
+    private Properties messageProperties;
 
     private Validator<String> nameValidator;
     private Validator<String> nicknameValidator;
@@ -41,29 +41,32 @@ public class ApplicationConfig {
 
     private void initRegex(){
         try {
-            properties = new Properties();
+            regexProperties = new Properties();
+            messageProperties = new Properties();
             InputStream inputStream = Main.class.getClassLoader().getResourceAsStream("regex.properties");
-            properties.load(inputStream);
+            regexProperties.load(inputStream);
+            inputStream = Main.class.getClassLoader().getResourceAsStream("messages.properties");
+            messageProperties.load(inputStream);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     private void initValidators(){
-        nameValidator = new SimpleTextValidator(properties.getProperty("name"));
-        nicknameValidator = new SimpleTextValidator(properties.getProperty("nickname"));
-        commentValidator = new CommentValidator(Integer.parseInt(properties.getProperty("max.size.comment")));
+        nameValidator = new SimpleTextValidator(regexProperties.getProperty("name"));
+        nicknameValidator = new SimpleTextValidator(regexProperties.getProperty("nickname"));
+        commentValidator = new SimpleTextValidator(regexProperties.getProperty("comment"));
         groupValidator = new GroupValidator();
-        phoneValidator = new SimpleTextValidator(properties.getProperty("phone"));
-        emailValidator = new SimpleTextValidator(properties.getProperty("email"));
-        numberValidator = new SimpleTextValidator(properties.getProperty("number"));
+        phoneValidator = new SimpleTextValidator(regexProperties.getProperty("phone"));
+        emailValidator = new SimpleTextValidator(regexProperties.getProperty("email"));
+        numberValidator = new SimpleTextValidator(regexProperties.getProperty("build"));
     }
 
     private void initComponents(){
         notebookModel = new NotebookModel();
         view = new View();
         scanner = new Scanner(System.in);
-        controller = new Controller(notebookModel, view, scanner, nameValidator, nicknameValidator,
+        controller = new Controller(notebookModel, view, scanner, messageProperties, nameValidator, nicknameValidator,
                 commentValidator, groupValidator, phoneValidator, emailValidator, numberValidator);
     }
 
