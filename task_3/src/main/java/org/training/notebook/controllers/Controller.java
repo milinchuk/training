@@ -16,10 +16,25 @@ import java.util.Scanner;
  * Created by click on 11/6/2016.
  */
 public class Controller {
+    /**
+     *
+     */
     private NotebookModel notebook;
+
+    /**
+     *
+     */
     private View view;
     private Scanner sc;
+
+    /**
+     *
+     */
     private Properties messageResouce;
+
+    /**
+     *
+     */
     private ValidatorStore validators;
 
     public Controller(NotebookModel notebook, View view, Scanner sc,
@@ -31,6 +46,9 @@ public class Controller {
         this.validators = validators;
     }
 
+    /**
+     *
+     */
     public void newRecord(){
         Record record = new Record();
         askNames(record);
@@ -41,6 +59,10 @@ public class Controller {
         notebook.addRecord(record);
     }
 
+    /**
+     *
+     * @param record
+     */
     private void askNames(Record record){
         record.setFirstName(getValidData(messageResouce.getProperty("firstname"), validators.getNameValidator()));
         record.setMiddleName(getValidData(messageResouce.getProperty("middlename"), validators.getNameValidator()));
@@ -48,6 +70,10 @@ public class Controller {
         record.setNickname(getValidData(messageResouce.getProperty("nickname"), validators.getNicknameValidator()));
     }
 
+    /**
+     *
+     * @param record
+     */
     private void askPhoneNumbers(Record record){
         record.setHomePhone(getValidData(messageResouce.getProperty("phone.home"),
                 validators.getPhoneValidator()));
@@ -57,11 +83,19 @@ public class Controller {
                 validators.getPhoneValidator()));
     }
 
+    /**
+     *
+     * @param record
+     */
     private void askSocial(Record record){
         record.setEmail(getValidData(messageResouce.getProperty("email"), validators.getEmailValidator()));
         record.setSkype(getValidData(messageResouce.getProperty("skype"), validators.getNicknameValidator()));
     }
 
+    /**
+     *
+     * @param record
+     */
     private void askAddress(Record record){
         Address address = new Address();
         address.setCity(getValidData(messageResouce.getProperty("address.city"),
@@ -75,6 +109,10 @@ public class Controller {
         record.setAddress(address);
     }
 
+    /**
+     *
+     * @param record
+     */
     private void askAdditionInfo(Record record){
         String group = getValidData(messageResouce.getProperty("group") + Arrays.toString(Group.values()),
                 validators.getGroupValidator());
@@ -83,6 +121,12 @@ public class Controller {
                 validators.getCommentValidator()));
     }
 
+    /**
+     *
+     * @param askDataMessage
+     * @param validator
+     * @return
+     */
     private String getValidData(String askDataMessage, Validator<String> validator){
         String data;
         view.printMessage(askDataMessage);
@@ -99,6 +143,11 @@ public class Controller {
         return data;
     }
 
+    /**
+     *
+     * @param sc
+     * @return
+     */
     private String askNextFromUser(Scanner sc){
         Scanner scanner = new Scanner(System.in);
         return scanner.next();

@@ -22,6 +22,9 @@ public class ApplicationConfig {
     private Properties messageProperties;
     private ValidatorStore validators;
 
+    /**
+     *
+     */
     public void configAndStart(){
         initRegex();
         initValidatorFactory();
@@ -30,6 +33,9 @@ public class ApplicationConfig {
         start();
     }
 
+    /**
+     *
+     */
     private void initRegex(){
         try {
             regexProperties = new Properties();
@@ -43,10 +49,16 @@ public class ApplicationConfig {
         }
     }
 
+    /**
+     *
+     */
     private void initValidatorFactory(){
         validators = new ValidatorStore(regexProperties);
     }
 
+    /**
+     *
+     */
     private void initComponents(){
         notebookModel = new NotebookModel();
         view = new View();
@@ -54,6 +66,9 @@ public class ApplicationConfig {
         controller = new Controller(notebookModel, view, scanner, messageProperties,validators);
     }
 
+    /**
+     *
+     */
     private void start(){
         controller.newRecord();
     }
