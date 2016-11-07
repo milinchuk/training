@@ -5,8 +5,10 @@ import org.training.notebook.models.entities.Group;
 import org.training.notebook.models.NotebookModel;
 import org.training.notebook.models.entities.Record;
 import org.training.notebook.validators.Validator;
+import org.training.notebook.validators.ValidatorStore;
 import org.training.notebook.views.View;
 
+import java.util.Arrays;
 import java.util.Properties;
 import java.util.Scanner;
 
@@ -16,33 +18,17 @@ import java.util.Scanner;
 public class Controller {
     private NotebookModel notebook;
     private View view;
-    private Properties messageResouce;
     private Scanner sc;
-
-    private Validator<String> nameValidator;
-    private Validator<String> nicknameValidator;
-    private Validator<String> commentValidator;
-    private Validator<String> groupValidator;
-    private Validator<String> phoneValidator;
-    private Validator<String> emailValidator;
-    private Validator<String> numberValidator;
+    private Properties messageResouce;
+    private ValidatorStore validators;
 
     public Controller(NotebookModel notebook, View view, Scanner sc,
-                      Properties messageResouce, Validator<String> nameValidator,
-                      Validator<String> nicknameValidator, Validator<String> commentValidator,
-                      Validator<String> groupValidator, Validator<String> phoneValidator,
-                      Validator<String> emailValidator, Validator<String> numberValidator) {
+                      Properties messageResouce, ValidatorStore validators) {
         this.notebook = notebook;
         this.view = view;
         this.sc = sc;
         this.messageResouce = messageResouce;
-        this.nameValidator = nameValidator;
-        this.nicknameValidator = nicknameValidator;
-        this.commentValidator = commentValidator;
-        this.groupValidator = groupValidator;
-        this.phoneValidator = phoneValidator;
-        this.emailValidator = emailValidator;
-        this.numberValidator = numberValidator;
+        this.validators = validators;
     }
 
     public void newRecord(){
@@ -52,41 +38,49 @@ public class Controller {
         askSocial(record);
         askAddress(record);
         askAdditionInfo(record);
-        //generate date !!!
         notebook.addRecord(record);
     }
 
     private void askNames(Record record){
-        record.setFirstName(getValidData(messageResouce.getProperty("firstname"), nameValidator));
-        record.setMiddleName(getValidData(messageResouce.getProperty("middlename"), nameValidator));
-        record.setLastName(getValidData(messageResouce.getProperty("lastname"), nameValidator));
-        record.setNickname(getValidData(messageResouce.getProperty("nickname"), nicknameValidator));
+        record.setFirstName(getValidData(messageResouce.getProperty("firstname"), validators.getNameValidator()));
+        record.setMiddleName(getValidData(messageResouce.getProperty("middlename"), validators.getNameValidator()));
+        record.setLastName(getValidData(messageResouce.getProperty("lastname"), validators.getNameValidator()));
+        record.setNickname(getValidData(messageResouce.getProperty("nickname"), validators.getNicknameValidator()));
     }
 
     private void askPhoneNumbers(Record record){
-        record.setHomePhone(getValidData(messageResouce.getProperty("phone.home"), phoneValidator));
-        record.setMobilePhone(getValidData(messageResouce.getProperty("phone.mobile"), phoneValidator));
-        record.setMobilePhone2(getValidData(messageResouce.getProperty("phone.mobile"), phoneValidator));
+        record.setHomePhone(getValidData(messageResouce.getProperty("phone.home"),
+                validators.getPhoneValidator()));
+        record.setMobilePhone(getValidData(messageResouce.getProperty("phone.mobile"),
+                validators.getPhoneValidator()));
+        record.setMobilePhone2(getValidData(messageResouce.getProperty("phone.mobile"),
+                validators.getPhoneValidator()));
     }
 
     private void askSocial(Record record){
-        record.setEmail(getValidData(messageResouce.getProperty("email"), emailValidator));
-        record.setSkype(getValidData(messageResouce.getProperty("skype"), nicknameValidator));
+        record.setEmail(getValidData(messageResouce.getProperty("email"), validators.getEmailValidator()));
+        record.setSkype(getValidData(messageResouce.getProperty("skype"), validators.getNicknameValidator()));
     }
 
     private void askAddress(Record record){
         Address address = new Address();
-        address.setCity(getValidData(messageResouce.getProperty("address.city"), nameValidator));
-        address.setStreet(getValidData(messageResouce.getProperty("address.street"), nameValidator));
-        address.setBuildNum(getValidData(messageResouce.getProperty("address.build.num"), numberValidator));
-        address.setApartmentNum(getValidData(messageResouce.getProperty("address.apartment.num"), numberValidator));
+        address.setCity(getValidData(messageResouce.getProperty("address.city"),
+                validators.getNameValidator()));
+        address.setStreet(getValidData(messageResouce.getProperty("address.street"),
+                validators.getNameValidator()));
+        address.setBuildNum(getValidData(messageResouce.getProperty("address.build.num"),
+                validators.getBuildNumValidator()));
+        address.setApartmentNum(getValidData(messageResouce.getProperty("address.apartment.num"),
+                validators.getAptValidator()));
         record.setAddress(address);
     }
 
     private void askAdditionInfo(Record record){
-        String group = getValidData(messageResouce.getProperty("group") + Group.values().toString(), groupValidator);
+        String group = getValidData(messageResouce.getProperty("group") + Arrays.toString(Group.values()),
+                validators.getGroupValidator());
         record.setGroup(Group.valueOf(group));
-        record.setComment(getValidData(messageResouce.getProperty("comment"), commentValidator));
+        record.setComment(getValidData(messageResouce.getProperty("comment"),
+                validators.getCommentValidator()));
     }
 
     private String getValidData(String askDataMessage, Validator<String> validator){

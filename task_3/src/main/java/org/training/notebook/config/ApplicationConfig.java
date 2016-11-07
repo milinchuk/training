@@ -3,9 +3,7 @@ package org.training.notebook.config;
 import org.training.notebook.Main;
 import org.training.notebook.controllers.Controller;
 import org.training.notebook.models.NotebookModel;
-import org.training.notebook.validators.GroupValidator;
-import org.training.notebook.validators.SimpleTextValidator;
-import org.training.notebook.validators.Validator;
+import org.training.notebook.validators.ValidatorStore;
 import org.training.notebook.views.View;
 
 import java.io.InputStream;
@@ -22,18 +20,11 @@ public class ApplicationConfig {
     private Scanner scanner;
     private Properties regexProperties;
     private Properties messageProperties;
-
-    private Validator<String> nameValidator;
-    private Validator<String> nicknameValidator;
-    private Validator<String> commentValidator;
-    private Validator<String> groupValidator;
-    private Validator<String> phoneValidator;
-    private Validator<String> emailValidator;
-    private Validator<String> numberValidator;
+    private ValidatorStore validators;
 
     public void configAndStart(){
         initRegex();
-        initValidators();
+        initValidatorFactory();
         initComponents();
 
         start();
@@ -52,22 +43,15 @@ public class ApplicationConfig {
         }
     }
 
-    private void initValidators(){
-        nameValidator = new SimpleTextValidator(regexProperties.getProperty("name"));
-        nicknameValidator = new SimpleTextValidator(regexProperties.getProperty("nickname"));
-        commentValidator = new SimpleTextValidator(regexProperties.getProperty("comment"));
-        groupValidator = new GroupValidator();
-        phoneValidator = new SimpleTextValidator(regexProperties.getProperty("phone"));
-        emailValidator = new SimpleTextValidator(regexProperties.getProperty("email"));
-        numberValidator = new SimpleTextValidator(regexProperties.getProperty("build"));
+    private void initValidatorFactory(){
+        validators = new ValidatorStore(regexProperties);
     }
 
     private void initComponents(){
         notebookModel = new NotebookModel();
         view = new View();
         scanner = new Scanner(System.in);
-        controller = new Controller(notebookModel, view, scanner, messageProperties, nameValidator, nicknameValidator,
-                commentValidator, groupValidator, phoneValidator, emailValidator, numberValidator);
+        controller = new Controller(notebookModel, view, scanner, messageProperties,validators);
     }
 
     private void start(){
