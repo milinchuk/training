@@ -5,7 +5,9 @@ import model.entity.Automobile;
 import java.util.Comparator;
 
 /**
- * Created by click on 11/14/2016.
+ * This is comparator for Automobile
+ *
+ * @author Anastasia Milinchuk
  */
 public class AutomobileComparator implements Comparator<Automobile> {
     @Override

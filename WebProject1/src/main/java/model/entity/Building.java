@@ -1,16 +1,31 @@
 package model.entity;
 
 /**
- * Created by click on 11/14/2016.
+ * Building
+ *
+ * @author Anastasia Milinchuk
  */
-public class Build {
+public class Building {
+    /**
+     * Size of building
+     */
     private Size size;
+
+    /**
+     * Cost of building
+     */
     private double cost;
 
-    public Build() {
+    public Building() {
     }
 
-    public Build(Size size, double cost) {
+    /**
+     * Constructor with size and cost
+     *
+     * @param size size of building
+     * @param cost cost
+     */
+    public Building(Size size, double cost) {
         this.size = size;
         this.cost = cost;
     }

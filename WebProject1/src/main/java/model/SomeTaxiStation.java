@@ -2,38 +2,36 @@ package model;
 
 import model.entity.Automobile;
 import model.comparator.AutomobileComparator;
-import model.entity.Build;
+import model.entity.Building;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
 /**
- * Created by click on 11/14/2016.
+ * Taxi station with building
+ *
+ * @author Anastasia Milinchuk
  */
 public class SomeTaxiStation implements TaxiStation {
+    /**
+     * All automobiles which contain station
+     */
     private List<Automobile> automobileList;
-    private Build build;
 
-    public SomeTaxiStation() {
+    /**
+     * Building in station
+     */
+    private Building building;
+
+    /**
+     * Constructor for creating station. Building is expected
+     *
+     * @param building building
+     */
+    public SomeTaxiStation(Building building) {
         automobileList = new ArrayList<>();
-        build = new Build();
-    }
-
-    public List<Automobile> getAutomobileList() {
-        return automobileList;
-    }
-
-    public void setAutomobileList(List<Automobile> automobileList) {
-        this.automobileList = automobileList;
-    }
-
-    public Build getBuild() {
-        return build;
-    }
-
-    public void setBuild(Build build) {
-        this.build = build;
+        this.building = building;
     }
 
     @Override
@@ -42,8 +40,18 @@ public class SomeTaxiStation implements TaxiStation {
         for(Automobile automobile: automobileList){
             cost += automobile.getPrice();
         }
-        cost += build.getCost();
+        cost += building.getCost();
         return cost;
+    }
+
+    @Override
+    public void add(Automobile automobile) {
+        automobileList.add(automobile);
+    }
+
+    @Override
+    public void remove(int index) {
+        automobileList.remove(index);
     }
 
     @Override
@@ -54,6 +62,16 @@ public class SomeTaxiStation implements TaxiStation {
     @Override
     public List<Automobile> findBySpeed(int start, int end) {
         return find(n -> ( (n >= start) && (n <= end) ));
+    }
+
+    @Override
+    public String getStringAutomobiles() {
+        return automobileList.toString();
+    }
+
+    @Override
+    public List<Automobile> getAutomobilesList() {
+        return automobileList;
     }
 
     private List<Automobile> find(Predicate<Integer> predicate){
