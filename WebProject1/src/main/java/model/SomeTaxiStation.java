@@ -74,7 +74,7 @@ public class SomeTaxiStation implements TaxiStation {
      */
     @Override
     public void sortAutomobiles() {
-        automobileList.sort(new AutomobileComparator());
+        automobileList.sort((automobile1, automobile2) -> (automobile1.compareTo(automobile2)));
     }
 
     /**
