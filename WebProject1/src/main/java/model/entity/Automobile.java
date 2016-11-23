@@ -9,11 +9,34 @@ public class Automobile implements Comparable<Automobile> {
     /*
      * Text constants
      */
+    /**
+     * Mark text constant
+     */
     public static final String MARK = "\n\tMark: ";
+
+    /**
+     * Type text constant
+     */
     public static final String TYPE = "\n\ttype: ";
+
+    /**
+     * Model text constant
+     */
     public static final String MODEL = "\n\tmodel: ";
+
+    /**
+     * Engine volume text constant
+     */
     public static final String ENGINE_VOLUME = "\n\tengine volume: ";
+
+    /**
+     * Price text constant
+     */
     public static final String PRICE = "\n\tprice: ";
+
+    /**
+     * Max speed text constant
+     */
     public static final String MAX_SPEED = "\n\tmax speed: ";
 
     /**
