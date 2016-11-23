@@ -21,12 +21,4 @@ public class TaxiStationTest {
                     .compareTo(station.getAutomobilesList().get(i)) == 1);
         }
     }
-
-    /**
-     * Test for finding speed
-     */
-    @Test
-    public void findBySpeed(){
-        TaxiStation station = (new DefaultData()).createTaxiStation();
-    }
 }

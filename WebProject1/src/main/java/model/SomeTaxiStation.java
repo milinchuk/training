@@ -34,6 +34,11 @@ public class SomeTaxiStation implements TaxiStation {
         this.building = building;
     }
 
+    /**
+     * Count of cost. Add price of all automobiles and price of building.
+     *
+     * @return cost of station
+     */
     @Override
     public double cost() {
         double cost = 0;
@@ -44,21 +49,41 @@ public class SomeTaxiStation implements TaxiStation {
         return cost;
     }
 
+    /**
+     * Add automobile to current station
+     *
+     * @param automobile is Automobile
+     */
     @Override
     public void add(Automobile automobile) {
         automobileList.add(automobile);
     }
 
+    /**
+     * Remove automobile from station with index
+     *
+     * @param index of automobile
+     */
     @Override
     public void remove(int index) {
         automobileList.remove(index);
     }
 
+    /**
+     * Sort all automobiles in station
+     */
     @Override
     public void sortAutomobiles() {
         automobileList.sort(new AutomobileComparator());
     }
 
+    /**
+     * Find automobiles by range of speed
+     *
+     * @param start is start bound speed
+     * @param end is end bound speed
+     * @return automobiles
+     */
     @Override
     public List<Automobile> findBySpeed(int start, int end) {
         return find(n -> ( (n >= start) && (n <= end) ));
@@ -74,6 +99,11 @@ public class SomeTaxiStation implements TaxiStation {
         return automobileList;
     }
 
+    /**
+     * Find automobiles by query
+     * @param predicate is query for searching
+     * @return automobiles list
+     */
     private List<Automobile> find(Predicate<Integer> predicate){
         List<Automobile> findingAutomobiles = new ArrayList<>();
 
